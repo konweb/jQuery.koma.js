@@ -2,4 +2,4 @@
 
 Frame advance animation plugin.
 
-[DEMO]()
+[DEMO](http://konweb.github.io/jQuery.koma.js/demo/)
