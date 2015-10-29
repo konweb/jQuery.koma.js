@@ -1,0 +1,26 @@
+extends ./inc/_head.jade
+
+block title
+	title index page
+
+block content
+	h1 Sample1
+
+	.l-section
+		div.image-box.js-koma_02
+			- for (var i = 0; i < 400; i++) {
+				img(src="./images/image_02/image#{i+1}.png")
+			- }
+			
+	.l-section
+		div.image-box.js-koma
+			- for (var i = 0; i < 400; i++) {
+				img(src="./images/image_01/image#{i+1}.png")
+			- }
+
+
+	script.
+		$(function(){
+			$('.js-koma').koma();
+			$('.js-koma_02').koma();
+		});
