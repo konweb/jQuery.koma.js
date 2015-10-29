@@ -4,23 +4,37 @@ block title
 	title index page
 
 block content
-	h1 Sample1
+	h1 Default
 
 	.l-section
 		div.image-box.js-koma_02
-			- for (var i = 0; i < 400; i++) {
-				img(src="./images/image_02/image#{i+1}.png")
-			- }
+			div.koma-items.img-wrap
+				- for (var i = 0; i < 400; i++) {
+					img(src="./images/image_02/image#{i+1}.png")
+				- }
 			
 	.l-section
 		div.image-box.js-koma
-			- for (var i = 0; i < 400; i++) {
-				img(src="./images/image_01/image#{i+1}.png")
-			- }
+			div.koma-items.img-wrap
+				- for (var i = 0; i < 400; i++) {
+					img(src="./images/image_01/image#{i+1}.png")
+				- }
 
+	h1 Stop
+
+	.l-section
+		div.image-box.js-koma
+			div.koma-items.img-wrap
+				- for (var i = 0; i < 400; i++) {
+					img(src="./images/image_02/image#{i+1}.png")
+				- }
+			button.koma-restart restart!
+			button.koma-stop stop!
 
 	script.
 		$(function(){
-			$('.js-koma').koma();
+			$('.js-koma').each(function(){
+				$(this).koma();
+			})
 			$('.js-koma_02').koma();
 		});

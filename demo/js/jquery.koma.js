@@ -21,22 +21,50 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 		function Koma($el, op) {
 			_classCallCheck(this, Koma);
 
+			this.option = $.extend({
+				'fps': 20,
+				'step': null,
+				'itemEl': '.koma-items',
+				'restartEl': '.koma-restart',
+				'stopEl': '.koma-stop'
+			}, op);
 			this.$el = $el;
-			this.$img = this.$el.find('img');
+			this.$img = this.$el.find(this.option.itemEl + ' img');
+			this.$item = this.$el.find(this.option.itemEl);
+			this.$restart = this.$el.find(this.option.restartEl);
+			this.$stop = this.$el.find(this.option.stopEl);
 			this.imgLen = this.$img.length;
 			this.startTime = getTime();
-			this.option = $.extend({
-				'fps': 20
-			}, op);
+			this.animationFlag = true;
 			this.setup();
 		}
 
 		_createClass(Koma, [{
 			key: 'setup',
 			value: function setup() {
+				var _this = this;
+
 				this.$img.slice(1).hide();
-				this.imgLoad().then(this.animation.bind(this))['catch'](function () {
+				this.imgLoad().then(function () {
+					_this.animation();
+					_this.eventify();
+				})['catch'](function () {
 					console.log('画像読み込み失敗');
+				});
+			}
+		}, {
+			key: 'eventify',
+			value: function eventify() {
+				var _this2 = this;
+
+				console.log('eventify');
+				this.$stop.on('click', function () {
+					console.log('stop');
+					window.cancelAnimationFrame(_this2.requestId);
+				});
+				this.$restart.on('click', function () {
+					console.log('restart');
+					_this2.requestId = requestAnimationFrame(_this2.animation.bind(_this2));
 				});
 			}
 		}, {
@@ -63,7 +91,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 		}, {
 			key: 'animation',
 			value: function animation() {
-				requestAnimationFrame(this.animation.bind(this));
+				this.requestId = requestAnimationFrame(this.animation.bind(this));
 				var lastTime = getTime();
 				var frame = Math.floor((lastTime - this.startTime) / (1000.0 / this.option.fps) % this.imgLen);
 				this.$img.hide();
@@ -75,10 +103,10 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 	})();
 
 	$.fn.koma = function (options) {
-		var _this = this;
+		var _this3 = this;
 
 		return this.each(function () {
-			new Koma($(_this), options);
+			new Koma($(_this3), options);
 		});
 	};
 })();

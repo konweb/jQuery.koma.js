@@ -15,3 +15,6 @@
 .image-box img{
 	position: absolute;
 }
+.img-wrap{
+	height: 240px;
+}

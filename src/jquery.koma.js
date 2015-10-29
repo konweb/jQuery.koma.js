@@ -24,21 +24,44 @@
 
 	class Koma {
 		constructor($el, op) {
+			this.option    = $.extend({
+				'fps'       : 20,
+				'step'      : null,
+				'itemEl'    : '.koma-items',
+				'restartEl' : '.koma-restart',
+				'stopEl'    : '.koma-stop'
+			}, op);
 			this.$el       = $el;
-			this.$img      = this.$el.find('img');
+			this.$img      = this.$el.find(this.option.itemEl + ' img');
+			this.$item      = this.$el.find(this.option.itemEl);
+			this.$restart  = this.$el.find(this.option.restartEl);
+			this.$stop     = this.$el.find(this.option.stopEl);
 			this.imgLen    = this.$img.length;
 			this.startTime = getTime();
-			this.option    = $.extend({
-				'fps': 20
-			}, op);
+			this.animationFlag = true;
 			this.setup();
 		}
 
 		setup() {
 			this.$img.slice(1).hide();
 			this.imgLoad()
-				.then( this.animation.bind(this) )
+				.then(() => {
+					this.animation();
+					this.eventify();
+				})
 				.catch( () => { console.log('画像読み込み失敗'); } );
+		}
+
+		eventify(){
+			console.log('eventify');
+			this.$stop.on('click', () => {
+				console.log('stop');
+				window.cancelAnimationFrame( this.requestId );
+			});
+			this.$restart.on('click', () => {
+				console.log('restart');
+				this.requestId = requestAnimationFrame( this.animation.bind(this) );
+			});
 		}
 
 		imgLoad() {
@@ -62,7 +85,7 @@
 		}
 
 		animation() {
-			requestAnimationFrame( this.animation.bind(this) );
+			this.requestId = requestAnimationFrame( this.animation.bind(this) );
 			let lastTime = getTime();
 			let frame    = Math.floor( ( lastTime - this.startTime ) / ( 1000.0 / this.option.fps ) % this.imgLen );
 			this.$img.hide();
