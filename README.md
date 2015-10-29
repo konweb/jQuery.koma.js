@@ -43,7 +43,7 @@ Frame advance animation plugin.
 ```js
 <script>
 	$(function(){
-		$('.hoge').koma();
+		$('.js-koma').koma();
 	});
 </script>
 ```
