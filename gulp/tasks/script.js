@@ -18,5 +18,6 @@ gulp.task('scripts', function() {
 		.pipe( $.plumber() )
 		.pipe( $.babel() )
 		.pipe( gulp.dest( config.dest ) )
+		.pipe( gulp.dest( config.dest + '/demo/js/' ) )
 		.pipe( browserSync.reload( {stream: true} ) );
 });
