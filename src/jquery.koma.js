@@ -115,8 +115,8 @@
 			this.requestId = requestAnimationFrame( this.animation.bind(this) );
 			let lastTime = getTime();
 			let frame    = Math.floor( ( lastTime - this.startTime ) / ( 1000.0 / this.option.fps ) % this.imgLen );
-			this.$img.hide();
-			this.$img.slice( (frame-1), frame ).show();
+			if(frame === 0) frame = 1;
+			this.$img.hide().slice( (frame-1), frame ).show();
 		}
 	}
 

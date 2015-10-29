@@ -16,7 +16,7 @@ block content
 					img(src="./images/image_02/image#{i+1}.png")
 				- }
 
-	h2 FPS
+	h2 Option FPS
 	.l-section
 		h3 FPS 15
 		code
@@ -35,15 +35,15 @@ block content
 					img(src="./images/image_01/image#{i+1}.png")
 				- }
 
-	h2 Stop
+	h2 Stop/Restart Controls
 	.l-section
-		h3 Stop Event
+		h3 Stop Event Handling
 		code
 			| $('.js-koma').on('koma_stop', function(e, params){ <br>
 			| &nbsp;&nbsp;console.log('koma_stop'); <br>
 			| &nbsp;&nbsp;console.log(params);// params.$el <br>
 			| });
-		h3 Restart Event
+		h3 Restart Event Handling
 		code
 			| $('.js-koma').on('koma_restart', function(e, params){ <br>
 			| &nbsp;&nbsp;console.log('koma_restart'); <br>
