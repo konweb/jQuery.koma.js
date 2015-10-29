@@ -8,6 +8,10 @@ code{
 	padding: 20px;
 }
 
+.is-hide{
+	display: none;
+}
+
 .l-section{
 	padding: 30px;
 }

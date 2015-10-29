@@ -35,7 +35,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 
 			this.option = $.extend({
 				'fps': 20,
-				'step': null,
+				'steps': [],
 				'itemEl': '.koma-items',
 				'restartEl': '.koma-restart',
 				'stopEl': '.koma-stop'
@@ -48,6 +48,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 			this.imgLen = this.$img.length;
 			this.startTime = getTime();
 			this.animationFlag = true;
+			this.isSteps = this.option.steps.length > 0 ? true : false;
 			this.setup();
 		}
 
@@ -65,8 +66,9 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 				this.imgLoad().then(function () {
 					_this.animation();
 					_this.eventify();
+					if (_this.isSteps) _this.imgLoadSteps();
 				})['catch'](function () {
-					console.log('画像読み込み失敗');
+					console.log('image load error');
 				});
 			}
 
@@ -98,12 +100,17 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 		}, {
 			key: 'imgLoad',
 			value: function imgLoad() {
+				var _this3 = this;
+
+				var startNum = arguments.length <= 0 || arguments[0] === undefined ? 0 : arguments[0];
+				var endNum = arguments.length <= 1 || arguments[1] === undefined ? this.isSteps ? this.option.steps[0] : this.imgLen : arguments[1];
+
 				var promises = [];
+				this.imgLen = this.isSteps ? this.option.steps[0] : this.imgLen;
 
-				this.$img.each(function () {
+				var _loop = function (i) {
 					var img = new Image();
-					img.src = $(this).attr('src');
-
+					img.src = _this3.$img.eq(i).attr('src');
 					var promise = new Promise(function (resolve, reject) {
 						img.onload = function () {
 							resolve();
@@ -113,8 +120,44 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 						};
 					});
 					promises.push(promise);
-				});
+				};
+
+				for (var i = startNum; i < endNum; i++) {
+					_loop(i);
+				}
 				return Promise.all(promises);
+			}
+
+			/**
+    * 画像分割読み込み
+    * @return undefind
+    */
+		}, {
+			key: 'imgLoadSteps',
+			value: function imgLoadSteps() {
+				var _this4 = this;
+
+				var steps = this.option.steps;
+				var stepArr = steps.length;
+				var promise = Promise.resolve();
+				var endFrame = 0;
+				var startFrame = steps[0];
+
+				var _loop2 = function (i) {
+					promise = promise.then(function () {
+						endFrame = startFrame + steps[i];
+						return _this4.imgLoad(startFrame, endFrame);
+					}).then(function () {
+						startFrame = endFrame;
+						_this4.imgLen = endFrame;
+					})['catch'](function () {
+						console.log('image load error');
+					});
+				};
+
+				for (var i = 1; i < stepArr; i++) {
+					_loop2(i);
+				}
 			}
 
 			/**
@@ -136,10 +179,10 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 	})();
 
 	$.fn.koma = function (options) {
-		var _this3 = this;
+		var _this5 = this;
 
 		return this.each(function () {
-			new Koma($(_this3), options);
+			new Koma($(_this5), options);
 		});
 	};
 })();

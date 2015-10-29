@@ -34,21 +34,22 @@
 		 * @return undefined
 		 */
 		constructor($el, op) {
-			this.option    = $.extend({
+			this.option = $.extend({
 				'fps'       : 20,
-				'step'      : null,
+				'steps'     : [],
 				'itemEl'    : '.koma-items',
 				'restartEl' : '.koma-restart',
 				'stopEl'    : '.koma-stop'
 			}, op);
-			this.$el       = $el;
-			this.$img      = this.$el.find(this.option.itemEl + ' img');
-			this.$item      = this.$el.find(this.option.itemEl);
-			this.$restart  = this.$el.find(this.option.restartEl);
-			this.$stop     = this.$el.find(this.option.stopEl);
-			this.imgLen    = this.$img.length;
-			this.startTime = getTime();
+			this.$el           = $el;
+			this.$img          = this.$el.find(this.option.itemEl + ' img');
+			this.$item         = this.$el.find(this.option.itemEl);
+			this.$restart      = this.$el.find(this.option.restartEl);
+			this.$stop         = this.$el.find(this.option.stopEl);
+			this.imgLen        = this.$img.length;
+			this.startTime     = getTime();
 			this.animationFlag = true;
+			this.isSteps       = this.option.steps.length > 0 ? true : false;
 			this.setup();
 		}
 
@@ -62,8 +63,10 @@
 				.then(() => {
 					this.animation();
 					this.eventify();
-				})
-				.catch( () => { console.log('画像読み込み失敗'); } );
+					if(this.isSteps) this.imgLoadSteps();
+				}).catch(() => {
+					console.log('image load error'); 
+				});
 		}
 
 		/**
@@ -87,13 +90,13 @@
 		 * 画像読み込み
 		 * @return promise
 		 */
-		imgLoad() {
+		imgLoad(startNum = 0, endNum = this.isSteps ? this.option.steps[0] : this.imgLen) {
 			let promises = [];
+			this.imgLen = this.isSteps ? this.option.steps[0] : this.imgLen;
 
-			this.$img.each(function(){
+			for(let i = startNum;i < endNum;i++){
 				let img = new Image();
-				img.src = $(this).attr('src');
-
+				img.src = this.$img.eq(i).attr('src');
 				let promise = new Promise((resolve, reject) => {
 					img.onload = function () {
 						resolve();
@@ -103,8 +106,32 @@
 					};
 				});
 				promises.push(promise);
-			});
+			}
 			return Promise.all(promises);
+		}
+
+		/**
+		 * 画像分割読み込み
+		 * @return undefind
+		 */
+		imgLoadSteps() {
+			let steps      = this.option.steps;
+			let stepArr    = steps.length;
+			let promise    = Promise.resolve();
+			let endFrame   = 0;
+			let startFrame = steps[0];
+
+			for(let i = 1;i < stepArr;i++){
+				promise = promise.then(() => {
+					endFrame = startFrame + steps[i];
+					return this.imgLoad(startFrame, endFrame);
+				}).then(() => {
+					startFrame  = endFrame;
+					this.imgLen = endFrame;
+				}).catch(() => {
+					console.log('image load error'); 
+				});
+			}
 		}
 
 		/**
@@ -113,8 +140,8 @@
 		 */
 		animation() {
 			this.requestId = requestAnimationFrame( this.animation.bind(this) );
-			let lastTime = getTime();
-			let frame    = Math.floor( ( lastTime - this.startTime ) / ( 1000.0 / this.option.fps ) % this.imgLen );
+			let lastTime   = getTime();
+			let frame      = Math.floor( ( lastTime - this.startTime ) / ( 1000.0 / this.option.fps ) % this.imgLen );
 			if(frame === 0) frame = 1;
 			this.$img.hide().slice( (frame-1), frame ).show();
 		}

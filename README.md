@@ -50,10 +50,10 @@ Frame advance animation plugin.
 
 ## Options
 
-| option | description | default |
-|:---|:---|:---|
-| fps | アニメーションのFPS | 20 |
-| step | - | null |
-| itemEl | 画像を囲うclass名 | '.koma-items' |
-| restartEl | 再スタートボタンclass名 | '.koma-restart' |
-| stopEl | ストップボタンclass名 | '.koma-stop' |
+| option | description | default | type |
+|:---|:---|:---|:---|
+| fps | アニメーションのFPS | 20 | Number |
+| steps | 画像分割読み込み | [] | Array |
+| itemEl | 画像を囲うclass名 | '.koma-items' | String |
+| restartEl | 再スタートボタンclass名 | '.koma-restart' | String |
+| stopEl | ストップボタンclass名 | '.koma-stop' | String |

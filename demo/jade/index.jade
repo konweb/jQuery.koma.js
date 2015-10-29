@@ -13,26 +13,11 @@ block content
 		div.js-koma
 			div.img-wrap.koma-items
 				- for (var i = 0; i < 400; i++) {
-					img(src="./images/image_02/image#{i+1}.png")
-				- }
-
-	h2 Option FPS
-	.l-section
-		h3 FPS 15
-		code
-			$('.hoge').koma( {fps: 15} );
-		div.js-koma-fps15
-			div.img-wrap.koma-items
-				- for (var i = 0; i < 400; i++) {
-					img(src="./images/image_01/image#{i+1}.png")
-				- }
-		h3 FPS 30
-		code
-			$('.hoge').koma( {fps: 30} );
-		div.js-koma-fps30
-			div.img-wrap.koma-items
-				- for (var i = 0; i < 400; i++) {
-					img(src="./images/image_01/image#{i+1}.png")
+					- if(i == 0){
+						img(src="./images/image_02/image#{i+1}.png")
+					- }else{
+						img.is-hide(src="./images/image_02/image#{i+1}.png")
+					- }
 				- }
 
 	h2 Stop/Restart Controls
@@ -40,7 +25,11 @@ block content
 		div.js-koma
 			div.img-wrap.koma-items
 				- for (var i = 0; i < 400; i++) {
-					img(src="./images/image_02/image#{i+1}.png")
+					- if(i == 0){
+						img(src="./images/image_02/image#{i+1}.png")
+					- }else{
+						img.is-hide(src="./images/image_02/image#{i+1}.png")
+					- }
 				- }
 			div.btn
 				button.koma-restart restart!
@@ -59,6 +48,47 @@ block content
 			| &nbsp;&nbsp;console.log(params);// params.$el <br>
 			| });
 
+	h2 Option FPS
+	.l-section
+		h3 FPS 15
+		code
+			$('.hoge').koma( {fps: 15} );
+		div.js-koma-fps15
+			div.img-wrap.koma-items
+				- for (var i = 0; i < 400; i++) {
+					- if(i == 0){
+						img(src="./images/image_01/image#{i+1}.png")
+					- }else{
+						img.is-hide(src="./images/image_01/image#{i+1}.png")
+					- }
+				- }
+		h3 FPS 30
+		code
+			$('.hoge').koma( {fps: 30} );
+		div.js-koma-fps30
+			div.img-wrap.koma-items
+				- for (var i = 0; i < 400; i++) {
+					- if(i == 0){
+						img(src="./images/image_01/image#{i+1}.png")
+					- }else{
+						img.is-hide(src="./images/image_01/image#{i+1}.png")
+					- }
+				- }
+
+	h2 Option Steps
+	.l-section
+		code
+			$('.hoge').koma( {steps: [90, 110, 80, 120]} );
+		div.js-koma-step
+			div.img-wrap.koma-items
+				- for (var i = 0; i < 400; i++) {
+					- if(i == 0){
+						img(src="./images/image_02/image#{i+1}.png")
+					- }else{
+						img.is-hide(src="./images/image_02/image#{i+1}.png")
+					- }
+				- }
+
 	script.
 		$(function(){
 			$('.js-koma').each(function(){
@@ -66,6 +96,7 @@ block content
 			})
 			$('.js-koma-fps15').koma( {fps: 15} );
 			$('.js-koma-fps30').koma( {fps: 30} );
+			$('.js-koma-step').koma( {steps: [90, 110, 80, 120]} );
 
 			$('.js-koma').on('koma_stop', function(e, params){
 				console.log('koma_stop');
