@@ -19,5 +19,9 @@ gulp.task('scripts', function() {
 		.pipe( $.babel() )
 		.pipe( gulp.dest( config.dest ) )
 		.pipe( gulp.dest( config.dest + '/demo/js/' ) )
+		.pipe( $.concat( 'jquery.koma.min.js' ) )
+		.pipe( $.uglify( {preserveComments: "some"} ) )
+		.pipe( gulp.dest( config.dest ) )
+		.pipe( gulp.dest( config.dest + '/demo/js/' ) )
 		.pipe( browserSync.reload( {stream: true} ) );
 });

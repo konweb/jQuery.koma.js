@@ -4,6 +4,7 @@ dir( './gulp/tasks', { recurse: true } );
 
 // defaults task
 gulp.task("start", ['watch', 'bs']);
+gulp.task("s", ['scripts']);
 
 // gulpfile save restart
 var spawn = require('child_process').spawn;
