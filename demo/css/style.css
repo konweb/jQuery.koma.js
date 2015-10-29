@@ -1,20 +1,25 @@
-.clearfix:after{
-	content: "";
-	clear: both;
+body{
+	margin: 30px;
+}
+
+code{
 	display: block;
+	margin: 15px 0;
+	padding: 20px;
 }
 
 .l-section{
 	padding: 30px;
-	height: 300px;
 }
 
-.image-box{
+.image-wrap{
 	position: relative;
+	height: 240px;
 }
-.image-box img{
+.image-wrap img{
 	position: absolute;
 }
-.img-wrap{
-	height: 240px;
+
+.btn{
+	margin-top: 30px;
 }

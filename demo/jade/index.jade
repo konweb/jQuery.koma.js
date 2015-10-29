@@ -4,37 +4,54 @@ block title
 	title index page
 
 block content
-	h1 Default
+	h1 jQuery.koma.js Demo
 
+	h2 Default
 	.l-section
-		div.image-box.js-koma_02
-			div.koma-items.img-wrap
+		code
+			$('.hoge').koma();
+		div.js-koma
+			div.img-wrap.koma-items
 				- for (var i = 0; i < 400; i++) {
 					img(src="./images/image_02/image#{i+1}.png")
 				- }
-			
+
+	h2 FPS
 	.l-section
-		div.image-box.js-koma
-			div.koma-items.img-wrap
+		h3 FPS 15
+		code
+			$('.hoge').koma( {fps: 15} );
+		div.js-koma-fps15
+			div.img-wrap.koma-items
+				- for (var i = 0; i < 400; i++) {
+					img(src="./images/image_01/image#{i+1}.png")
+				- }
+		h3 FPS 30
+		code
+			$('.hoge').koma( {fps: 30} );
+		div.js-koma-fps30
+			div.img-wrap.koma-items
 				- for (var i = 0; i < 400; i++) {
 					img(src="./images/image_01/image#{i+1}.png")
 				- }
 
-	h1 Stop
+	h2 Stop
 
 	.l-section
-		div.image-box.js-koma
-			div.koma-items.img-wrap
+		div.js-koma
+			div.img-wrap.koma-items
 				- for (var i = 0; i < 400; i++) {
 					img(src="./images/image_02/image#{i+1}.png")
 				- }
-			button.koma-restart restart!
-			button.koma-stop stop!
+			div.btn
+				button.koma-restart restart!
+				button.koma-stop stop!
 
 	script.
 		$(function(){
 			$('.js-koma').each(function(){
 				$(this).koma();
 			})
-			$('.js-koma_02').koma();
+			$('.js-koma-fps15').koma( {fps: 15} );
+			$('.js-koma-fps30').koma( {fps: 30} );
 		});
