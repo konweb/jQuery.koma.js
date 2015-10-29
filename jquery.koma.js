@@ -17,7 +17,19 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 		return now && now.call(performance) || new Date().getTime();
 	};
 
+	/**
+  * Creates a new Koma.
+  * @class
+  */
+
 	var Koma = (function () {
+		/**
+   * Initialize
+   * @param $el {element} peaent element
+   * @param op {object} plugin options
+   * @return undefined
+   */
+
 		function Koma($el, op) {
 			_classCallCheck(this, Koma);
 
@@ -39,6 +51,11 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 			this.setup();
 		}
 
+		/**
+   * Setup
+   * @return undefined
+   */
+
 		_createClass(Koma, [{
 			key: 'setup',
 			value: function setup() {
@@ -52,21 +69,32 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 					console.log('画像読み込み失敗');
 				});
 			}
+
+			/**
+    * イベント設定
+    * @return undefined
+    */
 		}, {
 			key: 'eventify',
 			value: function eventify() {
 				var _this2 = this;
 
-				console.log('eventify');
+				var stopEvent = new $.Event('koma_stop');
+				var restartEvent = new $.Event('koma_restart');
 				this.$stop.on('click', function () {
-					console.log('stop');
 					window.cancelAnimationFrame(_this2.requestId);
+					_this2.$el.trigger(stopEvent, { $el: _this2.$el });
 				});
 				this.$restart.on('click', function () {
-					console.log('restart');
 					_this2.requestId = requestAnimationFrame(_this2.animation.bind(_this2));
+					_this2.$el.trigger(restartEvent, { $el: _this2.$el });
 				});
 			}
+
+			/**
+    * 画像読み込み
+    * @return promise
+    */
 		}, {
 			key: 'imgLoad',
 			value: function imgLoad() {
@@ -88,6 +116,11 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 				});
 				return Promise.all(promises);
 			}
+
+			/**
+    * コマ送りアニメーション
+    * @return promise
+    */
 		}, {
 			key: 'animation',
 			value: function animation() {

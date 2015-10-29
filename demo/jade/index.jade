@@ -36,8 +36,19 @@ block content
 				- }
 
 	h2 Stop
-
 	.l-section
+		h3 Stop Event
+		code
+			| $('.js-koma').on('koma_stop', function(e, params){ <br>
+			| &nbsp;&nbsp;console.log('koma_stop'); <br>
+			| &nbsp;&nbsp;console.log(params);// params.$el <br>
+			| });
+		h3 Restart Event
+		code
+			| $('.js-koma').on('koma_restart', function(e, params){ <br>
+			| &nbsp;&nbsp;console.log('koma_restart'); <br>
+			| &nbsp;&nbsp;console.log(params);// params.$el <br>
+			| });
 		div.js-koma
 			div.img-wrap.koma-items
 				- for (var i = 0; i < 400; i++) {
@@ -54,4 +65,13 @@ block content
 			})
 			$('.js-koma-fps15').koma( {fps: 15} );
 			$('.js-koma-fps30').koma( {fps: 30} );
+
+			$('.js-koma').on('koma_stop', function(e, params){
+				console.log('koma_stop');
+				console.log(params);
+			});
+			$('.js-koma').on('koma_restart', function(e, params){
+				console.log('koma_restart');
+				console.log(params);
+			});
 		});

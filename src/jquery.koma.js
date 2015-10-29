@@ -22,7 +22,17 @@
 		return ( now && now.call( performance ) ) || ( new Date().getTime() );
 	};
 
+	/**
+	 * Creates a new Koma.
+	 * @class
+	 */
 	class Koma {
+		/**
+		 * Initialize
+		 * @param $el {element} peaent element
+		 * @param op {object} plugin options
+		 * @return undefined
+		 */
 		constructor($el, op) {
 			this.option    = $.extend({
 				'fps'       : 20,
@@ -42,6 +52,10 @@
 			this.setup();
 		}
 
+		/**
+		 * Setup
+		 * @return undefined
+		 */
 		setup() {
 			this.$img.slice(1).hide();
 			this.imgLoad()
@@ -52,18 +66,27 @@
 				.catch( () => { console.log('画像読み込み失敗'); } );
 		}
 
+		/**
+		 * イベント設定
+		 * @return undefined
+		 */
 		eventify(){
-			console.log('eventify');
+			let stopEvent    = new $.Event('koma_stop');
+			let restartEvent = new $.Event('koma_restart');
 			this.$stop.on('click', () => {
-				console.log('stop');
 				window.cancelAnimationFrame( this.requestId );
+				this.$el.trigger( stopEvent, {$el: this.$el} );
 			});
 			this.$restart.on('click', () => {
-				console.log('restart');
 				this.requestId = requestAnimationFrame( this.animation.bind(this) );
+				this.$el.trigger( restartEvent, {$el: this.$el} );
 			});
 		}
 
+		/**
+		 * 画像読み込み
+		 * @return promise
+		 */
 		imgLoad() {
 			let promises = [];
 
@@ -84,6 +107,10 @@
 			return Promise.all(promises);
 		}
 
+		/**
+		 * コマ送りアニメーション
+		 * @return promise
+		 */
 		animation() {
 			this.requestId = requestAnimationFrame( this.animation.bind(this) );
 			let lastTime = getTime();
