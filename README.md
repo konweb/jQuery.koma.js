@@ -11,7 +11,7 @@ Frame advance animation plugin.
 <!DOCTYPE html>
 <html lang="en">
 <head>
-	<link rel="stylesheet" href="./css/marx.min.css">
+	<link rel="stylesheet" href="./css/style.css">
 	<script src="//code.jquery.com/jquery-2.1.3.min.js"></script>
 	<script src="./js/jquery.koma.min.js"></script>
 </head>
