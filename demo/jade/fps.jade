@@ -1,0 +1,38 @@
+extends ./inc/_head.jade
+
+block title
+	title index page
+
+block content
+	h2 Option FPS
+	.l-section
+		h3 FPS 15
+		code
+			$('.hoge').koma( {fps: 15} );
+		div.js-koma-fps15
+			div.img-wrap.koma-items
+				- for (var i = 0; i < 400; i++) {
+					- if(i == 0){
+						img(src="./images/image_01/image#{i+1}.png")
+					- }else{
+						img.is-hide(src="./images/image_01/image#{i+1}.png")
+					- }
+				- }
+		h3 FPS 30
+		code
+			$('.hoge').koma( {fps: 30} );
+		div.js-koma-fps30
+			div.img-wrap.koma-items
+				- for (var i = 0; i < 400; i++) {
+					- if(i == 0){
+						img(src="./images/image_01/image#{i+1}.png")
+					- }else{
+						img.is-hide(src="./images/image_01/image#{i+1}.png")
+					- }
+				- }
+
+	script.
+		$(function(){
+			$('.js-koma-fps15').koma( {fps: 15} );
+			$('.js-koma-fps30').koma( {fps: 30} );
+		});

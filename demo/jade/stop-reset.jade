@@ -1,0 +1,49 @@
+extends ./inc/_head.jade
+
+block title
+	title index page
+
+block content
+	h2 Stop/Restart Controls
+	.l-section
+		div.js-koma
+			div.img-wrap.koma-items
+				- for (var i = 0; i < 400; i++) {
+					- if(i == 0){
+						img(src="./images/image_02/image#{i+1}.png")
+					- }else{
+						img.is-hide(src="./images/image_02/image#{i+1}.png")
+					- }
+				- }
+			div.btn
+				button.koma-restart restart!
+				button.koma-stop stop!
+
+		h3 Stop Event Handling 'koma_stop'
+		code
+			| $('.js-koma').on('koma_stop', function(e, params){ <br>
+			| &nbsp;&nbsp;console.log('koma_stop'); <br>
+			| &nbsp;&nbsp;console.log(params);// params.$el <br>
+			| });
+		h3 Restart Event Handling 'koma_restart'
+		code
+			| $('.js-koma').on('koma_restart', function(e, params){ <br>
+			| &nbsp;&nbsp;console.log('koma_restart'); <br>
+			| &nbsp;&nbsp;console.log(params);// params.$el <br>
+			| });
+
+	script.
+		$(function(){
+			$('.js-koma').each(function(){
+				$(this).koma();
+			})
+
+			$('.js-koma').on('koma_stop', function(e, params){
+				console.log('koma_stop');
+				console.log(params);
+			});
+			$('.js-koma').on('koma_restart', function(e, params){
+				console.log('koma_restart');
+				console.log(params);
+			});
+		});

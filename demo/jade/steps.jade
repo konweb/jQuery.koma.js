@@ -4,11 +4,11 @@ block title
 	title index page
 
 block content
-	h2 Default
+	h2 Option Steps
 	.l-section
 		code
-			$('.hoge').koma();
-		div.js-koma
+			$('.hoge').koma( {steps: [90, 110, 80, 120]} );
+		div.js-koma-step
 			div.img-wrap.koma-items
 				- for (var i = 0; i < 400; i++) {
 					- if(i == 0){
@@ -20,7 +20,5 @@ block content
 
 	script.
 		$(function(){
-			$('.js-koma').each(function(){
-				$(this).koma();
-			});
+			$('.js-koma-step').koma( {steps: [90, 110, 80, 120]} );
 		});
