@@ -1,12 +1,12 @@
 {
-  "name": "environment-basic",
-  "version": "0.0.0",
-  "description": "gulp",
+  "name": "jquery-koma",
+  "version": "1.0.0",
+  "description": "Frame advance animation plugin.",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "",
+  "author": "konweb <align0711@gmail.com> (http://qiita.com/konweb)",
   "license": "ISC",
   "devDependencies": {
     "browser-sync": "^2.2.2",
@@ -20,7 +20,12 @@
     "gulp-watch": "^4.1.1",
     "require-dir": "^0.3.0"
   },
-  "dependencies": {
-    "babel-runtime": "^5.8.29"
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/konweb/jQuery.koma.js.git"
+  },
+  "homepage": "https://github.com/konweb/jQuery.koma.js#readme",
+  "bugs": {
+    "url": "https://github.com/konweb/jQuery.koma.js/issues"
   }
 }
