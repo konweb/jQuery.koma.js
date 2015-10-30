@@ -5,6 +5,9 @@ Frame advance animation plugin.
 ## Demo
 - [http://konweb.github.io/jQuery.koma.js/demo/](http://konweb.github.io/jQuery.koma.js/demo/)
 
+## Browsers
+IE8+ and other new browsers
+
 ## Get started
 ### HTML
 ```html
