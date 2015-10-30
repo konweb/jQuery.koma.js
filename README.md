@@ -8,6 +8,17 @@ Frame advance animation plugin.
 ## Browsers
 IE8+ and other new browsers
 
+## Install
+```
+git clone https://github.com/konweb/jQuery.koma.js.git
+```
+
+or
+
+```
+npm install jquery-koma
+```
+
 ## Get started
 ### HTML
 ```html
