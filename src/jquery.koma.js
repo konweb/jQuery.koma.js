@@ -64,7 +64,7 @@
 					this.animation();
 					this.eventify();
 					if(this.isSteps) this.imgLoadSteps();
-				}).catch(() => {
+				}).fail(() => {
 					console.log('image load error'); 
 				});
 		}
@@ -92,22 +92,29 @@
 		 */
 		imgLoad(startNum = 0, endNum = this.isSteps ? this.option.steps[0] : this.imgLen) {
 			let promises = [];
+			let retDefer = $.Deferred();
 			this.imgLen = this.isSteps ? this.option.steps[0] : this.imgLen;
 
 			for(let i = startNum;i < endNum;i++){
 				let img = new Image();
+				let defer = $.Deferred();
 				img.src = this.$img.eq(i).attr('src');
-				let promise = new Promise((resolve, reject) => {
-					img.onload = function () {
-						resolve();
-					};
-					img.error = function () {
-						reject();
-					};
-				});
-				promises.push(promise);
+				img.onload = function () {
+					defer.resolve();
+				};
+				img.error = function () {
+					defer.reject();
+				};
+				promises.push(defer);
 			}
-			return Promise.all(promises);
+
+			$.when.apply(null, promises).done(() => {
+				retDefer.resolve();
+			}).fail(() => {
+				retDefer.reject();
+			});
+
+			return retDefer.promise();
 		}
 
 		/**
@@ -117,7 +124,7 @@
 		imgLoadSteps() {
 			let steps      = this.option.steps;
 			let stepArr    = steps.length;
-			let promise    = Promise.resolve();
+			let promise    = $.Deferred().resolve();
 			let endFrame   = 0;
 			let startFrame = steps[0];
 
@@ -128,7 +135,7 @@
 				}).then(() => {
 					startFrame  = endFrame;
 					this.imgLen = endFrame;
-				}).catch(() => {
+				}).fail(() => {
 					console.log('image load error'); 
 				});
 			}

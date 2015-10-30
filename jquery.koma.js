@@ -67,7 +67,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 					_this.animation();
 					_this.eventify();
 					if (_this.isSteps) _this.imgLoadSteps();
-				})['catch'](function () {
+				}).fail(function () {
 					console.log('image load error');
 				});
 			}
@@ -106,26 +106,33 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 				var endNum = arguments.length <= 1 || arguments[1] === undefined ? this.isSteps ? this.option.steps[0] : this.imgLen : arguments[1];
 
 				var promises = [];
+				var retDefer = $.Deferred();
 				this.imgLen = this.isSteps ? this.option.steps[0] : this.imgLen;
 
 				var _loop = function (i) {
 					var img = new Image();
+					var defer = $.Deferred();
 					img.src = _this3.$img.eq(i).attr('src');
-					var promise = new Promise(function (resolve, reject) {
-						img.onload = function () {
-							resolve();
-						};
-						img.error = function () {
-							reject();
-						};
-					});
-					promises.push(promise);
+					img.onload = function () {
+						defer.resolve();
+					};
+					img.error = function () {
+						defer.reject();
+					};
+					promises.push(defer);
 				};
 
 				for (var i = startNum; i < endNum; i++) {
 					_loop(i);
 				}
-				return Promise.all(promises);
+
+				$.when.apply(null, promises).done(function () {
+					retDefer.resolve();
+				}).fail(function () {
+					retDefer.reject();
+				});
+
+				return retDefer.promise();
 			}
 
 			/**
@@ -139,7 +146,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 
 				var steps = this.option.steps;
 				var stepArr = steps.length;
-				var promise = Promise.resolve();
+				var promise = $.Deferred().resolve();
 				var endFrame = 0;
 				var startFrame = steps[0];
 
@@ -150,7 +157,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 					}).then(function () {
 						startFrame = endFrame;
 						_this4.imgLen = endFrame;
-					})['catch'](function () {
+					}).fail(function () {
 						console.log('image load error');
 					});
 				};
